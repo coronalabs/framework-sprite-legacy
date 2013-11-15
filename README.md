@@ -1,6 +1,33 @@
 framework-sprite-legacy
 =======================
 
-This project contains two Corona Sprite samples using the legacy sprite libary. You can download either sample and **require** the **sprite.lua** file from the sample into your project requiring legacy Sprite support.
+This is a shim Lua module that provides support for the legacy sprite library. It bridges the old API to the newer sprite implementation in Corona.
 
-Note: If you project is using ParticleCandy, you will need to include the legacy **Sprite library**..
+## Contents
+
+* `sprite.lua`
+* Two samples:
+    + `HorseAnimation`
+    + `JungleScene`
+
+## Usage
+
+As demonstrated by the samples, you must:
+
+* include `sprite.lua` in your projectand 
+* require the **sprite** module in your project
+
+## License
+
+This is MIT licensed.
+
+## Support
+
+This sprite module is provided as is, and there is no active development of it. Feel free to fork, and improve on it.
+
+In very limited tests, we have seen this work successfully with:
+
+* ParticleCandy
+
+There is a bug when used with TextCandy where the same character is always shown. 
+
