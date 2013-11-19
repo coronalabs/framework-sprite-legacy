@@ -62,7 +62,7 @@ sprite.newSprite = function( spriteSet )
 	if spriteSet.type == "newSpriteArgs" then
 		assert( type( spriteSet.args ) == "table", "sprite.newSprite(): 'spriteSet.args' is nil." )
 
-		s = display.newSprite( unpack( spriteSet.args ) )		
+		s = display.newSprite( unpack( spriteSet.args ) )
 	else
 		assert( spriteSet.type == "spriteSet" or spriteSet.type == "spriteMultiSet", "sprite.newSprite(): incorrect 'spriteSet.type'." )
 
@@ -74,9 +74,57 @@ sprite.newSprite = function( spriteSet )
 		s = display.newSprite( imageSheet, sequenceData )
 	end
 
+	--------------------------------------------------------
+	-- Map old SpriteInstance properties to new SpriteObject
+	-- 
+	-- We achieve this by inserting ourselved in front of
+	-- the original __index/__newindex metamethods
+	-- 
+	-- TODO: Move this block to a function
+	--------------------------------------------------------
+
+	--------------------------------------------------------
+	-- Begin
+	--------------------------------------------------------	
+
+	-- TODO: Move this into __index
 	function s:prepare( name )
 		s:setSequence( name )
 	end
+
+	local oldSpriteKeyToNewSpriteKey = {
+		animating = "isPlaying",
+		currentFrame = "frame",
+	}
+
+	local mt = getmetatable(s)
+	local __indexOrig = mt.__index
+	mt.__index = function( t, k, v )
+		-- Map from old SpriteInstance key to new SpriteObject equivalent
+		local newKey = oldSpriteKeyToNewSpriteKey[k]
+		k = newKey or k
+
+		return __indexOrig( t, k )
+	end
+
+	local __newIndexOrig = mt.__newindex
+	mt.__newindex = function( t, k, v )
+		local shouldOverride = oldSpriteKeyToNewSpriteKey[k]
+		if ( shouldOverride ) then
+			-- Map from old SpriteInstance to new SpriteObject equivalent
+			if ( "currentFrame" == k ) then
+				t:setFrame( v )
+			else
+				-- no-op for read-only keys
+			end
+		else
+			return __newIndexOrig( t, k, v )
+		end
+	end
+
+	--------------------------------------------------------
+	-- End
+	--------------------------------------------------------	
 
 	return s
 end
