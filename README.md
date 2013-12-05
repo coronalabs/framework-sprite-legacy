@@ -29,5 +29,10 @@ In very limited tests, we have seen this work successfully with:
 
 * ParticleCandy
 
-There is a bug when used with TextCandy where the same character is always shown. 
+There is a bug when used with TextCandy where the same character is always shown.
+
+* [Updated] For performance reasons, this library was reverted to a previous version.
+
+Please see the following post, for more info on TextCandy and ParticleCandy in graphics 2.0 
+http://forums.coronalabs.com/topic/40042-will-particle-candy-be-updated-for-graphics-20/
 
