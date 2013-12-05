@@ -28,5 +28,6 @@ This sprite module is provided as is, and there is no active development of it. 
 In very limited tests, we have seen this work successfully with:
 
 * ParticleCandy
-* TextCandy
+
+There is a bug when used with TextCandy where the same character is always shown. 
 
